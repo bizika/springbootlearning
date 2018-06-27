@@ -1,13 +1,11 @@
 package com.tan.resttemplate.service;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 /**
  * 基于注解
@@ -22,7 +20,7 @@ public class RestTemplateBaseService {
     @Resource(name = "restTemplate")
     RestTemplate restTemplate;
 
-    protected <T> T httpGetObjectRequest(String url, String body) {
+    protected <T> T httpPostObjectRequest(String url, String body) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
         httpHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -31,11 +29,12 @@ public class RestTemplateBaseService {
         httpHeaders.add("organUnitId","7518");
         httpHeaders.add("userId","33986");
 
-        Map param = Maps.newHashMap();
+        //language=JSON
+        String bodyParam = "{\"empId\": \"33986\", \"orgId\": \"130950\"}";
 
-        HttpEntity<String> entity = new HttpEntity<String>(body, httpHeaders);
-        ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, null, String.class, param);
-
+        HttpEntity<String> entity = new HttpEntity<>(bodyParam, httpHeaders);
+        ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        System.out.println(result.toString());
         return null;
     }
 

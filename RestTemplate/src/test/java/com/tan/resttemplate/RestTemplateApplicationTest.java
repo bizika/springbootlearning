@@ -26,4 +26,5 @@ public class RestTemplateApplicationTest {
         String url = "http://localhost:8080/api/user/base/tag/get?id=20";
         service.httpGetWithoutHeader(url);
     }
+
 }
