@@ -1,4 +1,4 @@
-package com.tan.aoplearning.service;
+package com.tan.aoplearning.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,17 +10,17 @@ import org.springframework.util.StopWatch;
 
 /**
  * @author 601091
- * @date 2018/6/28
+ * @date 2018/6/29
+ * 切入点为自定义注解
  */
 @Aspect
 @Component
 @Slf4j
-public class TimeAspect {
-    @Pointcut("execution(public * com.tan.aoplearning.service..*.*(..))")
-    public void pointcut() {
-    }
+public class AnnotationAspect {
+    @Pointcut("@annotation(com.tan.aoplearning.annotation.TimeAnnotation)")
+    public void timeCut(){}
 
-    @Around("pointcut()")
+    @Around("timeCut()")
     public Object methodInvokeExpiredTime(ProceedingJoinPoint pjp) throws Throwable {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -39,4 +39,5 @@ public class TimeAspect {
         log.info("---method {} invoked, expired time: {} ms---", methodName, expiredTime);
         //
     }
+
 }
